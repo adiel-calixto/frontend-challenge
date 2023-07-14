@@ -5,6 +5,7 @@ import Navigation from "@/components/Navigation";
 import { CartContext } from "@/contexts/cart";
 import useProduct from "@/hooks/useProduct";
 import { ProductCategory } from "@/types/Product";
+import { formatPrice } from "@/utils/formatPrice";
 import { ShoppingBagIcon } from "@heroicons/react/24/solid";
 import { useRouter } from "next/navigation";
 import { useContext } from "react";
@@ -109,7 +110,7 @@ export default function ShowProduct({ params }: { params: { id: string } }) {
         <TextWrapper>
           <p style={{ fontSize: "1rem" }}>{renderCategory(product.category)}</p>
           <Title>{product.name}</Title>
-          <Price>R${product.price_in_cents / 100}</Price>
+          <Price>{formatPrice(product.price_in_cents)}</Price>
           <p style={{ fontSize: ".75rem" }}>
             *Frete de $40,00 para todo o Brasil. Grátis para compras acima de
             R$900,00.

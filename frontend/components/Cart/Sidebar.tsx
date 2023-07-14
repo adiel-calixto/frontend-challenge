@@ -3,8 +3,9 @@
 import NextLink from "next/link";
 import { styled } from "styled-components";
 import Divider from "../Divider";
+import { formatPrice } from "@/utils/formatPrice";
 
-const SHIPPING_FEE = 40;
+const SHIPPING_FEE = 40 * 100;
 
 const Container = styled.div`
   display: flex;
@@ -58,24 +59,26 @@ const Link = styled(NextLink)`
 `;
 
 export default function CartSidebar({ total }: { total: number }) {
+  const totalInCents = total * 100;
+
   return (
     <Container>
       <Heading>RESUMO DO PEDIDO</Heading>
       <TextContainer>
         <Text>Subtotal de produtos</Text>
-        <Text>R${total.toFixed(2)}</Text>
+        <Text>{formatPrice(totalInCents)}</Text>
       </TextContainer>
 
       <TextContainer>
         <Text>Entrega</Text>
-        <Text>R${SHIPPING_FEE.toFixed(2)}</Text>
+        <Text>{formatPrice(SHIPPING_FEE)}</Text>
       </TextContainer>
 
       <Divider />
 
       <TextContainer $darker>
         <Text>Total</Text>
-        <Text>R${(total + SHIPPING_FEE).toFixed(2)}</Text>
+        <Text>{formatPrice(totalInCents + SHIPPING_FEE)}</Text>
       </TextContainer>
 
       <Button>Finalizar a compra</Button>

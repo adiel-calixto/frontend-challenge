@@ -2,6 +2,7 @@
 
 import { CartContext } from "@/contexts/cart";
 import CartProduct from "@/types/CartProduct";
+import { formatPrice } from "@/utils/formatPrice";
 import { TrashIcon } from "@heroicons/react/24/solid";
 import React, { useContext } from "react";
 import { styled } from "styled-components";
@@ -112,7 +113,7 @@ export default function CartProductCard({ product }: { product: CartProduct }) {
                 )
             )}
           </Select>
-          <Price>R${product.price_in_cents / 100}</Price>
+          <Price>{formatPrice(product.price_in_cents)}</Price>
         </Spaced>
       </ContentWrapper>
     </Container>

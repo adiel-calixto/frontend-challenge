@@ -11,6 +11,7 @@ import getSortByFilterFromEnum from "@/utils/getSortByFilterFromEnum";
 import { useCallback } from "react";
 import { ProductCategory, ProductSort } from "@/types/Product";
 import Filter from "@/components/SortProducts";
+import { buildQueryOptionsFromSearchParams } from "@/utils/buildQueryOptionsFromSearchParams";
 
 const Box = styled.div`
   width: 100%;
@@ -43,12 +44,6 @@ const ProductsContainer = styled.div`
 
 const PRODUCTS_PER_PAGE = 12;
 
-const getCategoryFromTab = (tab: HomeTabs) => {
-  return tab !== "all" && Object.values(ProductCategory).includes(tab)
-    ? (tab as ProductCategory)
-    : undefined;
-};
-
 export default function Home() {
   const router = useRouter();
   const searchParams = useSearchParams()!;
@@ -64,20 +59,14 @@ export default function Home() {
     [searchParams]
   );
 
-  const page = parseInt(searchParams.get("page")?.toString() ?? "1");
   const tab = searchParams.get("tab") ?? "all";
   const sort = searchParams.get("sort");
-  const q = searchParams.get("q");
-  const { sortOrder, sortField } = getSortByFilterFromEnum(sort as ProductSort);
+  const page = parseInt(searchParams.get("page") ?? "1");
+
+  const options = buildQueryOptionsFromSearchParams(searchParams);
   const { data: products, meta } = useProducts({
-    page: page > 0 ? page - 1 : 0,
+    ...options,
     perPage: PRODUCTS_PER_PAGE,
-    sortField,
-    sortOrder,
-    filter: {
-      q: q ?? undefined,
-      category: getCategoryFromTab(tab as HomeTabs),
-    },
   });
   const pageNumber = Math.round(meta.count / PRODUCTS_PER_PAGE);
 

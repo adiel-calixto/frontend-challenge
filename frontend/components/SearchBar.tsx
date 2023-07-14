@@ -3,7 +3,7 @@
 import { styled } from "styled-components";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/solid";
 import React, { useCallback, useEffect, useState } from "react";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 const Container = styled.div`
   height: 2.5rem;
@@ -34,14 +34,11 @@ const SearchIcon = styled(MagnifyingGlassIcon)`
   cursor: pointer;
 `;
 
-interface SearchBarProps {
-  onSearch: (value: string) => any;
-}
-
 export default function SearchBar() {
   const [textFieldValue, setTextFieldValue] = useState("");
   const { push } = useRouter();
   const pathname = usePathname();
+  const searchParams = useSearchParams();
 
   const handleSearch = useCallback(() => {
     if (textFieldValue) {
@@ -49,8 +46,8 @@ export default function SearchBar() {
       return;
     }
 
-    push("/");
-  }, [push, textFieldValue]);
+    if (searchParams.has("q")) push("/");
+  }, [push, textFieldValue, searchParams]);
 
   useEffect(() => {
     if (pathname !== "/") return;

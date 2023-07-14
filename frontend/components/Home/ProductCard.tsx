@@ -1,6 +1,7 @@
 "use client";
 
 import { Product } from "@/types/Product";
+import { formatPrice } from "@/utils/formatPrice";
 import { useRouter } from "next/navigation";
 import { styled } from "styled-components";
 
@@ -54,7 +55,7 @@ export default function ProductCard({ product }: { product: Product }) {
       <Text>
         <Title>{product.name}</Title>
         <Divider />
-        <Price>R${product.price_in_cents / 100}</Price>
+        <Price>{formatPrice(product.price_in_cents)}</Price>
       </Text>
     </Container>
   );

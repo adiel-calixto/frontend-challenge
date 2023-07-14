@@ -5,6 +5,7 @@ import CartSidebar from "@/components/Cart/Sidebar";
 import BaseContainer from "@/components/Container";
 import Navigation from "@/components/Navigation";
 import { CartContext } from "@/contexts/cart";
+import { formatPrice } from "@/utils/formatPrice";
 import { useContext } from "react";
 import { styled } from "styled-components";
 
@@ -43,7 +44,8 @@ export default function Cart() {
         <TextContainer>
           <h2>SEU CARRINHO</h2>
           <p>
-            Total ({products.length} produtos) <b>R${totalPrice.toFixed(2)}</b>
+            Total ({products.length} produtos){" "}
+            <b>{formatPrice(totalPrice * 100)}</b>
           </p>
         </TextContainer>
         <ProductsContainer>
