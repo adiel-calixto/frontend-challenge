@@ -1,11 +1,11 @@
-import StyledComponentsRegistry from "./lib/registry";
 import NavBar from "@/components/NavBar";
-import ThemeProvider from "./lib/theme-provider";
-import { ApolloWrapper } from "./lib/apollo-provider";
 import { Saira } from "next/font/google";
+import { CartProvider } from "@/contexts/cart";
+import StyledComponentsRegistry from "@/lib/registry";
+import { ApolloWrapper } from "@/lib/apollo-wrapper";
+import ThemeProvider from "@/lib/theme-provider";
 
 import "./globals.css";
-import { CartProvider } from "@/contexts/cart";
 
 const saira = Saira({
   subsets: ["latin"],
@@ -21,16 +21,16 @@ export default function RootLayout({
   return (
     <html>
       <body className={saira.className}>
-        <StyledComponentsRegistry>
-          <ApolloWrapper>
-            <ThemeProvider>
+        <ApolloWrapper>
+          <ThemeProvider>
+            <StyledComponentsRegistry>
               <CartProvider>
                 <NavBar />
                 {children}
               </CartProvider>
-            </ThemeProvider>
-          </ApolloWrapper>
-        </StyledComponentsRegistry>
+            </StyledComponentsRegistry>
+          </ThemeProvider>
+        </ApolloWrapper>
       </body>
     </html>
   );

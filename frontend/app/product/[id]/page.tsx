@@ -11,6 +11,8 @@ import { useRouter } from "next/navigation";
 import { useContext } from "react";
 import { styled } from "styled-components";
 
+export const dynamic = "force-dynamic";
+
 const Wrapper = styled.div`
   display: flex;
   gap: 2rem;

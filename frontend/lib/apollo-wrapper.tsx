@@ -1,20 +1,16 @@
 "use client";
 
-import {
-  ApolloLink,
-  HttpLink,
-  SuspenseCache,
-} from "@apollo/client";
+import { ApolloLink, HttpLink } from "@apollo/client";
 import {
   ApolloNextAppProvider,
-  NextSSRApolloClient,
   NextSSRInMemoryCache,
+  NextSSRApolloClient,
   SSRMultipartLink,
 } from "@apollo/experimental-nextjs-app-support/ssr";
 
 function makeClient() {
   const httpLink = new HttpLink({
-    uri: "http://localhost:3333",
+    uri: process.env.NEXT_PUBLIC_API_URL,
   });
 
   return new NextSSRApolloClient({
@@ -31,16 +27,9 @@ function makeClient() {
   });
 }
 
-function makeSuspenseCache() {
-  return new SuspenseCache();
-}
-
 export function ApolloWrapper({ children }: React.PropsWithChildren) {
   return (
-    <ApolloNextAppProvider
-      makeClient={makeClient}
-      makeSuspenseCache={makeSuspenseCache}
-    >
+    <ApolloNextAppProvider makeClient={makeClient}>
       {children}
     </ApolloNextAppProvider>
   );

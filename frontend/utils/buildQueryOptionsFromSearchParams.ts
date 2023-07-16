@@ -37,7 +37,7 @@ const getCategoryFromTab = (tab: string | null) => {
   )
     return undefined;
 
-  return tab;
+  return tab as ProductCategory;
 };
 
 export function buildQueryOptionsFromSearchParams(
@@ -54,7 +54,6 @@ export function buildQueryOptionsFromSearchParams(
 
   return {
     page,
-    tab,
     sortField,
     sortOrder,
     filter: {

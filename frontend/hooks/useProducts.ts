@@ -12,32 +12,46 @@ interface HookOptions {
   page?: number;
   perPage?: number;
   sortField?: keyof Product;
-  sortOrder?: "ASC"|"DESC";
+  sortOrder?: "ASC" | "DESC";
 }
 
 const query = gql`
- query AllProducts($page: Int, $perPage: Int, $sortField: String, $sortOrder: String, $filter: ProductFilter) {
-  allProducts(page: $page, perPage: $perPage, sortField: $sortField, sortOrder: $sortOrder, filter: $filter) {
-    id
-    name
-    description
-    image_url
-    category
-    price_in_cents
-    sales
+  query AllProducts(
+    $page: Int
+    $perPage: Int
+    $sortField: String
+    $sortOrder: String
+    $filter: ProductFilter
+  ) {
+    allProducts(
+      page: $page
+      perPage: $perPage
+      sortField: $sortField
+      sortOrder: $sortOrder
+      filter: $filter
+    ) {
+      id
+      name
+      description
+      image_url
+      category
+      price_in_cents
+      sales
+    }
+    _allProductsMeta(filter: $filter) {
+      count
+    }
   }
-  _allProductsMeta(filter: $filter) {
-    count
-  }
-}
-`
+`;
 
-export default function useProducts(options?: HookOptions) {
-  const {data, error} = useSuspenseQuery<QueryResponse>(query, {variables: options})
+export default function useProducts(options: HookOptions) {
+  const { data, error } = useSuspenseQuery<QueryResponse>(query, {
+    variables: options,
+  });
 
   return {
     data: data.allProducts,
     meta: data._allProductsMeta,
     error,
-  }
+  };
 }

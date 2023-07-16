@@ -7,11 +7,12 @@ import Pagination from "@/components/Pagination";
 import ProductCard from "@/components/Home/ProductCard";
 import useProducts from "@/hooks/useProducts";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import getSortByFilterFromEnum from "@/utils/getSortByFilterFromEnum";
 import { useCallback } from "react";
-import { ProductCategory, ProductSort } from "@/types/Product";
+import { ProductSort } from "@/types/Product";
 import Filter from "@/components/SortProducts";
 import { buildQueryOptionsFromSearchParams } from "@/utils/buildQueryOptionsFromSearchParams";
+
+export const dynamic = "force-dynamic";
 
 const Box = styled.div`
   width: 100%;
