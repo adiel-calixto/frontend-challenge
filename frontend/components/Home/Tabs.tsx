@@ -46,7 +46,7 @@ export default function Tabs({ onChange, activeTab = "all" }: HomeTabsProps) {
         $active={activeTab == "all"}
         onClick={() => onChange && onChange("all")}
       >
-        Todos os produtos
+        <p>Todos os produtos</p>
       </Tab>
       {Object.values(ProductCategory).map((category, i) => (
         <Tab
