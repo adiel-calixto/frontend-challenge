@@ -2,7 +2,7 @@ import { Product, ProductCategory, ProductSort } from "@/types/Product";
 import { ReadonlyURLSearchParams } from "next/navigation";
 
 function getSortFilterFromEnum(sort: string | null) {
-  var sortField: keyof Product;
+  var sortField: keyof Product | null;
   var sortOrder: "ASC" | "DESC" = "ASC";
 
   switch (sort) {

@@ -1,5 +1,6 @@
 import { Product } from "@/types/Product";
-import { gql, useSuspenseQuery } from "@apollo/client";
+import { gql } from "@apollo/client";
+import { useSuspenseQuery } from "@apollo/experimental-nextjs-app-support/ssr";
 
 const query = gql`
   query GetProduct($id: ID!) {

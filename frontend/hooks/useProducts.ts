@@ -1,6 +1,7 @@
 import ListMetadata from "@/types/ListMetadata";
 import { Product, ProductFilter } from "@/types/Product";
-import { gql, useSuspenseQuery } from "@apollo/client";
+import { gql } from "@apollo/client";
+import { useSuspenseQuery } from "@apollo/experimental-nextjs-app-support/ssr";
 
 interface QueryResponse {
   allProducts: [];
@@ -11,14 +12,14 @@ interface HookOptions {
   filter?: ProductFilter;
   page?: number;
   perPage?: number;
-  sortField?: keyof Product;
+  sortField?: keyof Product | null;
   sortOrder?: "ASC" | "DESC";
 }
 
 const query = gql`
   query AllProducts(
-    $page: Int
     $perPage: Int
+    $page: Int
     $sortField: String
     $sortOrder: String
     $filter: ProductFilter
