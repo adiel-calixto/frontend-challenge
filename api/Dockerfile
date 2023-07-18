@@ -2,8 +2,13 @@ FROM node:18-alpine
 
 WORKDIR /usr/src/app
 
-COPY yarn.lock ./
-RUN yarn
+COPY package.json yarn.lock* package-lock.json* pnpm-lock.yaml* ./
+RUN \
+  if [ -f yarn.lock ]; then yarn; \
+  elif [ -f package-lock.json ]; then npm ci; \
+  elif [ -f pnpm-lock.yaml ]; then yarn global add pnpm && pnpm i --frozen-lockfile; \
+  else echo "Lockfile not found." && exit 1; \
+  fi
 
 COPY . .
 EXPOSE 3333

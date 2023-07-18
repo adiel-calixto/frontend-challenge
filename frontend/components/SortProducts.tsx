@@ -34,6 +34,7 @@ const SelectBox = styled.div<{ $open: boolean }>`
   top: 100%;
   right: 0;
   transform: translateY(5%);
+  z-index: 10;
 
   @media screen and (max-width: ${(props) => props.theme.mobile_size}) {
     right: 50%;

@@ -2,6 +2,7 @@
 
 import { Product } from "@/types/Product";
 import { formatPrice } from "@/utils/formatPrice";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { styled } from "styled-components";
 
@@ -10,17 +11,16 @@ const Container = styled.div`
   flex-direction: column;
   justify-content: space-between;
   align-items: start;
+  width: 100%;
   max-width: 16rem;
   gap: 0.25rem;
   cursor: pointer;
 `;
 
-const Img = styled.img`
+const ImageContainer = styled.div`
+  position: relative;
   width: 100%;
   height: 18.75rem;
-  object-fit: cover;
-  border-top-left-radius: 0.5rem;
-  border-top-right-radius: 0.5rem;
 `;
 
 const Text = styled.div`
@@ -50,12 +50,24 @@ export default function ProductCard({ product }: { product: Product }) {
   const router = useRouter();
 
   return (
-    <Container onClick={() => router.push(`/product/${product.id}`)}>
-      <Img src={product.image_url} />
+    <Container onClick={() => router.push(`/products/${product.id}`)}>
+      <ImageContainer>
+        <Image
+          alt={product.name}
+          fill
+          sizes="(max-width: 640px) 100vw, 33vw"
+          style={{
+            objectFit: "cover",
+            borderTopRightRadius: ".5rem",
+            borderTopLeftRadius: ".5rem",
+          }}
+          src={product.image_url}
+        />
+      </ImageContainer>
       <Text>
         <Title>{product.name}</Title>
         <Divider />
-        <Price>{formatPrice(product.price_in_cents)}</Price>
+        <Price>{formatPrice(product.price_in_cents / 100)}</Price>
       </Text>
     </Container>
   );

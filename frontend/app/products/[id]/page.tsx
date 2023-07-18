@@ -1,12 +1,13 @@
 "use client";
 
-import Container from "@/components/Container";
+import { Container } from "@/components/Container";
 import Navigation from "@/components/Navigation";
 import { CartContext } from "@/contexts/cart";
 import useProduct from "@/hooks/useProduct";
 import { ProductCategory } from "@/types/Product";
 import { formatPrice } from "@/utils/formatPrice";
 import { ShoppingBagIcon } from "@heroicons/react/24/solid";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useContext } from "react";
 import { styled } from "styled-components";
@@ -27,11 +28,11 @@ const Wrapper = styled.div`
   }
 `;
 
-const Img = styled.img`
+const ImageContainer = styled.div`
+  position: relative;
   width: 100%;
   height: 100%;
   min-height: 20rem;
-  object-fit: cover;
 `;
 
 const TextWrapper = styled.div`
@@ -106,27 +107,44 @@ export default function ShowProduct({ params }: { params: { id: string } }) {
 
   return (
     <Container>
-      <Navigation />
-      <Wrapper>
-        <Img src={product.image_url} />
-        <TextWrapper>
-          <p style={{ fontSize: "1rem" }}>{renderCategory(product.category)}</p>
-          <Title>{product.name}</Title>
-          <Price>{formatPrice(product.price_in_cents)}</Price>
-          <p style={{ fontSize: ".75rem" }}>
-            *Frete de $40,00 para todo o Brasil. Grátis para compras acima de
-            R$900,00.
-          </p>
+      {product ? (
+        <>
+          <Navigation />
+          <Wrapper>
+            <ImageContainer>
+              <Image
+                fill
+                sizes="(max-width: 640px) 100vw, 50vw"
+                quality={90}
+                style={{ objectFit: "cover" }}
+                alt={product.name}
+                src={product.image_url}
+              />
+            </ImageContainer>
+            <TextWrapper>
+              <p style={{ fontSize: "1rem" }}>
+                {renderCategory(product.category)}
+              </p>
+              <Title>{product.name}</Title>
+              <Price>{formatPrice(product.price_in_cents / 100)}</Price>
+              <p style={{ fontSize: ".75rem" }}>
+                *Frete de $40,00 para todo o Brasil. Grátis para compras acima
+                de R$900,00.
+              </p>
 
-          <Description>DESCRIÇÃO</Description>
-          <p>{product.description}</p>
+              <Description>DESCRIÇÃO</Description>
+              <p>{product.description}</p>
 
-          <Button onClick={handleClick}>
-            <ButtonIcon />
-            Adicionar ao carrinho
-          </Button>
-        </TextWrapper>
-      </Wrapper>
+              <Button onClick={handleClick}>
+                <ButtonIcon />
+                Adicionar ao carrinho
+              </Button>
+            </TextWrapper>
+          </Wrapper>
+        </>
+      ) : (
+        <>Algum erro ocorreu</>
+      )}
     </Container>
   );
 }

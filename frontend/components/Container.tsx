@@ -11,4 +11,4 @@ const Container = styled.div`
   padding: 1rem 2rem;
 `;
 
-export default Container;
+export { Container };

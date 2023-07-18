@@ -8,7 +8,7 @@ const NavigationWrapper = styled.div`
   padding: 1rem 0;
 `;
 
-const NavigationLink = styled(Link)`
+const NavigationLink = styled.div`
   display: flex;
   gap: 0.5rem;
   align-items: center;
@@ -25,10 +25,12 @@ const NavigationIcon = styled(ArrowUturnLeftIcon)`
 export default function Navigation() {
   return (
     <NavigationWrapper>
-      <NavigationLink href="/">
-        <NavigationIcon />
-        Voltar
-      </NavigationLink>
+      <Link href="/">
+        <NavigationLink>
+          <NavigationIcon />
+          Voltar
+        </NavigationLink>
+      </Link>
     </NavigationWrapper>
   );
 }

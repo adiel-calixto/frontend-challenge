@@ -2,7 +2,7 @@
 
 import CartProductCard from "@/components/Cart/ProductCard";
 import CartSidebar from "@/components/Cart/Sidebar";
-import BaseContainer from "@/components/Container";
+import { Container as BaseContainer } from "@/components/Container";
 import Navigation from "@/components/Navigation";
 import { CartContext } from "@/contexts/cart";
 import { formatPrice } from "@/utils/formatPrice";
@@ -35,7 +35,7 @@ const ProductsContainer = styled.div`
 `;
 
 export default function Cart() {
-  const { products, totalPrice } = useContext(CartContext);
+  const { products, totalPrice, shippingFee } = useContext(CartContext);
 
   return (
     <Container>
@@ -44,8 +44,7 @@ export default function Cart() {
         <TextContainer>
           <h2>SEU CARRINHO</h2>
           <p>
-            Total ({products.length} produtos){" "}
-            <b>{formatPrice(totalPrice * 100)}</b>
+            Total ({products.length} produtos) <b>{formatPrice(totalPrice)}</b>
           </p>
         </TextContainer>
         <ProductsContainer>
@@ -55,7 +54,7 @@ export default function Cart() {
         </ProductsContainer>
       </div>
 
-      <CartSidebar total={totalPrice} />
+      <CartSidebar shippingFee={shippingFee} total={totalPrice} />
     </Container>
   );
 }

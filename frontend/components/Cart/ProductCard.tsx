@@ -4,6 +4,7 @@ import { CartContext } from "@/contexts/cart";
 import CartProduct from "@/types/CartProduct";
 import { formatPrice } from "@/utils/formatPrice";
 import { TrashIcon } from "@heroicons/react/24/solid";
+import Image from "next/image";
 import React, { useContext } from "react";
 import { styled } from "styled-components";
 
@@ -21,10 +22,10 @@ const Container = styled.div`
   }
 `;
 
-const Img = styled.img`
+const ImageContainer = styled.div`
+  position: relative;
   width: 16rem;
-  height: 100%;
-  object-fit: cover;
+  height: 13rem;
 
   @media screen and (max-width: ${(props) => props.theme.mobile_size}) {
     width: 100%;
@@ -86,7 +87,15 @@ export default function CartProductCard({ product }: { product: CartProduct }) {
 
   return (
     <Container>
-      <Img src={product.image_url} />
+      <ImageContainer>
+        <Image
+          fill
+          style={{ objectFit: "cover" }}
+          sizes="(max-width: 640px) 100vw, 33vw"
+          alt={product.name}
+          src={product.image_url}
+        />
+      </ImageContainer>
       <ContentWrapper>
         <div>
           <Spaced>
@@ -113,7 +122,7 @@ export default function CartProductCard({ product }: { product: CartProduct }) {
                 )
             )}
           </Select>
-          <Price>{formatPrice(product.price_in_cents)}</Price>
+          <Price>{formatPrice(product.price_in_cents / 100)}</Price>
         </Spaced>
       </ContentWrapper>
     </Container>

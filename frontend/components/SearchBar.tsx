@@ -2,10 +2,10 @@
 
 import { styled } from "styled-components";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/solid";
-import React, { useCallback, useEffect, useState } from "react";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import React, { useCallback, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 
-const Container = styled.div`
+const Form = styled.form`
   height: 2.5rem;
   background-color: ${(props) => props.theme.grey};
   padding: 1rem;
@@ -28,17 +28,29 @@ const TextField = styled.input`
   background: transparent;
 `;
 
+const Button = styled.button`
+  background: transparent;
+  color: inherit;
+  border: none;
+  cursor: pointer;
+  outline: none;
+`;
+
 const SearchIcon = styled(MagnifyingGlassIcon)`
   width: 1.5rem;
   height: 1.5rem;
-  cursor: pointer;
 `;
 
 export default function SearchBar() {
-  const [textFieldValue, setTextFieldValue] = useState("");
   const { push } = useRouter();
-  const pathname = usePathname();
   const searchParams = useSearchParams();
+  const queryValue = searchParams.get("q") ?? "";
+  const [textFieldValue, setTextFieldValue] = useState(queryValue);
+
+  const handleSubmit = (e: React.SyntheticEvent) => {
+    e.preventDefault();
+    handleSearch();
+  };
 
   const handleSearch = useCallback(() => {
     if (textFieldValue) {
@@ -46,26 +58,21 @@ export default function SearchBar() {
       return;
     }
 
-    if (searchParams.has("q")) push("/");
-  }, [push, textFieldValue, searchParams]);
-
-  useEffect(() => {
-    if (pathname !== "/") return;
-
-    const timeout = setTimeout(() => handleSearch(), 500);
-
-    return () => clearTimeout(timeout);
-  }, [textFieldValue, handleSearch, pathname]);
+    if (queryValue) push("/");
+  }, [push, textFieldValue, queryValue]);
 
   return (
-    <Container>
+    <Form onSubmit={handleSubmit}>
       <TextField
+        value={textFieldValue}
         onInput={(e: React.ChangeEvent<HTMLInputElement>) =>
           setTextFieldValue(e.target.value)
         }
         placeholder="Procurando por algo específico?"
       />
-      <SearchIcon onClick={handleSearch} />
-    </Container>
+      <Button type="submit">
+        <SearchIcon />
+      </Button>
+    </Form>
   );
 }

@@ -7,6 +7,7 @@ const LOCAL_STORAGE_KEY = "cart";
 
 interface CartContextState {
   products: CartProduct[];
+  shippingFee: number;
   totalPrice: number;
   addProduct: (product: CartProduct) => void;
   removeProduct: (id: string) => void;
@@ -18,10 +19,11 @@ interface CartContextState {
 
 export const CartContext = createContext<CartContextState>({
   products: [],
+  shippingFee: 0,
   totalPrice: 0,
-  addProduct: () => {},
-  removeProduct: () => {},
-  updateProduct: () => {},
+  addProduct: () => { },
+  removeProduct: () => { },
+  updateProduct: () => { },
 });
 
 export function CartProvider({ children }: PropsWithChildren) {
@@ -32,9 +34,13 @@ export function CartProvider({ children }: PropsWithChildren) {
     products.reduce((acc, cur) => acc + cur.price_in_cents * cur.quantity, 0) /
     100;
 
+  const shippingFee = totalPrice > 900 ? 0 : 40;
+
   useEffect(() => {
     if (!hasLoaded) {
-      const session = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY) ?? "[]");
+      const session = JSON.parse(
+        localStorage.getItem(LOCAL_STORAGE_KEY) ?? "[]"
+      );
 
       if (Array.isArray(session)) {
         setProducts(session);
@@ -72,6 +78,7 @@ export function CartProvider({ children }: PropsWithChildren) {
     <CartContext.Provider
       value={{
         products,
+        shippingFee,
         totalPrice,
         removeProduct,
         updateProduct,

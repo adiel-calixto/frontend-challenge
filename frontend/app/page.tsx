@@ -1,7 +1,7 @@
 "use client";
 
 import { styled } from "styled-components";
-import Container from "@/components/Container";
+import { Container } from "@/components/Container";
 import Tabs, { HomeTabs } from "@/components/Home/Tabs";
 import Pagination from "@/components/Pagination";
 import ProductCard from "@/components/Home/ProductCard";
@@ -13,17 +13,6 @@ import Filter from "@/components/SortProducts";
 import { buildQueryOptionsFromSearchParams } from "@/utils/buildQueryOptionsFromSearchParams";
 
 export const dynamic = "force-dynamic";
-
-const Box = styled.div`
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-
-  @media screen and (max-width: ${(props) => props.theme.mobile_size}) {
-    flex-direction: column;
-  }
-`;
 
 const ProductsContainer = styled.div`
   display: grid;
@@ -40,6 +29,25 @@ const ProductsContainer = styled.div`
 
   @media screen and (max-width: ${(props) => props.theme.mobile_size}) {
     grid-template-columns: 1fr;
+  }
+`;
+
+const Box = styled.div`
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  justify-items: end;
+
+  > * {
+    &:first-child {
+      justify-self: start;
+    }
+  }
+
+  @media screen and (max-width: ${(props) => props.theme.mobile_size}) {
+    flex-direction: column;
+    grid-template-columns: 1fr;
+    place-items: center;
   }
 `;
 
@@ -89,25 +97,33 @@ export default function Home() {
 
   return (
     <Container>
-      <Box>
-        <Tabs onChange={handleTab} activeTab={tab as HomeTabs} />
-        <Filter onChange={handleSorting} activeSort={sort as ProductSort} />
-      </Box>
-      <Pagination
-        pageNumber={pageNumber}
-        page={page}
-        onChange={handlePagination}
-      />
-      <ProductsContainer>
-        {products.map((product, i) => (
-          <ProductCard key={i} product={product} />
-        ))}
-      </ProductsContainer>
-      <Pagination
-        pageNumber={pageNumber}
-        page={page}
-        onChange={handlePagination}
-      />
+      <>
+        <Box>
+          <Tabs onChange={handleTab} activeTab={tab as HomeTabs} />
+          <Filter onChange={handleSorting} activeSort={sort as ProductSort} />
+        </Box>
+        <Pagination
+          pageNumber={pageNumber}
+          page={page}
+          onChange={handlePagination}
+        />
+
+        {products && products.length > 0 ? (
+          <ProductsContainer>
+            {products.map((product, i) => (
+              <ProductCard key={i} product={product} />
+            ))}
+          </ProductsContainer>
+        ) : (
+          <p>Nenhum produto encontrado</p>
+        )}
+
+        <Pagination
+          pageNumber={pageNumber}
+          page={page}
+          onChange={handlePagination}
+        />
+      </>
     </Container>
   );
 }

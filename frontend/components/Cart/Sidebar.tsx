@@ -5,8 +5,6 @@ import { styled } from "styled-components";
 import Divider from "../Divider";
 import { formatPrice } from "@/utils/formatPrice";
 
-const SHIPPING_FEE = 40 * 100;
-
 const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -58,27 +56,31 @@ const Link = styled(NextLink)`
   color: ${(props) => props.theme.text};
 `;
 
-export default function CartSidebar({ total }: { total: number }) {
-  const totalInCents = total * 100;
-
+export default function CartSidebar({
+  total,
+  shippingFee,
+}: {
+  total: number;
+  shippingFee: number;
+}) {
   return (
     <Container>
       <Heading>RESUMO DO PEDIDO</Heading>
       <TextContainer>
         <Text>Subtotal de produtos</Text>
-        <Text>{formatPrice(totalInCents)}</Text>
+        <Text>{formatPrice(total)}</Text>
       </TextContainer>
 
       <TextContainer>
         <Text>Entrega</Text>
-        <Text>{formatPrice(SHIPPING_FEE)}</Text>
+        <Text>{formatPrice(shippingFee)}</Text>
       </TextContainer>
 
       <Divider />
 
       <TextContainer $darker>
         <Text>Total</Text>
-        <Text>{formatPrice(totalInCents + SHIPPING_FEE)}</Text>
+        <Text>{formatPrice(total + shippingFee)}</Text>
       </TextContainer>
 
       <Button>Finalizar a compra</Button>

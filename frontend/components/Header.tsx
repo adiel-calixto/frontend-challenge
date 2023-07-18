@@ -1,7 +1,7 @@
 "use client";
 
 import { styled } from "styled-components";
-import BaseContainer from "./Container";
+import { Container as BaseContainer } from "./Container";
 import SearchBar from "./SearchBar";
 import ShoppingCartLink from "./ShoppingCartLink";
 import { Saira_Stencil_One } from "next/font/google";
@@ -15,7 +15,7 @@ const saira = Saira_Stencil_One({
   weight: "400",
 });
 
-const BackgroundWrapper = styled.div`
+const HeaderWrapper = styled.header`
   width: 100%;
   background-color: ${(props) => props.theme.bg};
 `;
@@ -34,7 +34,7 @@ const Container = styled(BaseContainer)`
   }
 `;
 
-const Logo = styled(Link)`
+const Logo = styled.p`
   margin-right: auto;
   font-size: 2.5rem;
   color: #5d5d6d;
@@ -50,20 +50,20 @@ const RightContainer = styled.div`
   align-items: center;
 `;
 
-export default function NavBar() {
+export default function Header() {
   const { products } = useContext(CartContext);
 
   return (
-    <BackgroundWrapper>
+    <HeaderWrapper>
       <Container>
-        <Logo href={"/"} className={saira.className}>
-          capputeeno
+        <Logo className={saira.className}>
+          <Link href="/">capputeeno</Link>
         </Logo>
         <RightContainer>
           <SearchBar />
           <ShoppingCartLink itemCount={products.length} />
         </RightContainer>
       </Container>
-    </BackgroundWrapper>
+    </HeaderWrapper>
   );
 }

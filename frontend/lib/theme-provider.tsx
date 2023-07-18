@@ -14,7 +14,7 @@ const theme = {
   grey: "#F3F5F6",
   dark_grey: "#E9E9F0",
   darker_grey: "#09090A",
-  desktop_size: "1096px",
+  desktop_size: "1280px",
   mobile_size: "640px",
 };
 
